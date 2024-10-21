@@ -20,12 +20,11 @@ class Joueur:
     
 
 class Bateau:
-    def __init__(self, nom, longueur, vie, largeur=1, nb_bateaux=5):
+    def __init__(self, nom, longueur, vie, largeur=1):
         self.nom = nom
         self.longueur = longueur
         self.largeur = largeur
         self.vie = vie
-        self.nb_bateaux=nb_bateaux
         
     def rotate(self):
         # Permet de changer l'orientation du bateau (horizontal à vertical)
