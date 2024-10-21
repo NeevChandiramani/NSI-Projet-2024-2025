@@ -14,6 +14,11 @@ class Joueur:
         self.nom = input("Quel pseudo voulez-vous choisir ? ")
         return self.nom
 
+    def affiche_nom(self):
+        print("Votre pseudo est : ", self.nom)
+        return self.nom
+    
+
 class Bateau:
     def __init__(self, nom, longueur, vie, largeur=1, nb_bateaux=5):
         self.nom = nom
@@ -96,14 +101,9 @@ class Jeu:
         self.Grille_Défense = Grille_Défense
         self.Bateau = Bateau
 
-   
 
     def verifier_victoire():
         pass
-
-    
-
-
 
 
 
