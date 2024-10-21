@@ -15,16 +15,16 @@ class Joueur:
         return self.nom
 
 class Bateau:
-    def __init__(self, longueur, largeur=1, vie, nom):
-        self.longueur = longueur
-        self.vie = vie
+    def __init__(self, nom, longueur, vie, largeur=1, nb_bateaux=5):
         self.nom = nom
+        self.longueur = longueur
         self.largeur = largeur
-
-    def rotate(self) :
-        a = self.longueur
-        self.longueur = self.largeur
-        self.largeur = a
+        self.vie = vie
+        self.nb_bateaux=nb_bateaux
+        
+    def rotate(self):
+        # Permet de changer l'orientation du bateau (horizontal à vertical)
+        self.longueur, self.largeur = self.largeur, self.longueur
         ## A finir après avoir fait la classe Jeu
 
 class Grille_Attaque:
@@ -41,8 +41,18 @@ class Grille_Attaque:
                 print(case, end=' ')
             print()
 
+    def boulet_de_canon() :
+        #permet de lancer un boulet sur la grille de défense de l'adversaire
+        pass
+    
+    def affiche_boulet():
+        #permet d'affiche le boulet de canon sur la grille d'attaque du joueur pour savoir s'il a touché ou non
+        pass
+    
+    
 
-class Grille_Défense:
+
+class Grille_Défense: # celle ou on place nos bateaux
     def __init__(self, joueur, bateau):
         self.joueur = joueur
         self.bateau = bateau
@@ -55,6 +65,22 @@ class Grille_Défense:
             for case in self.grille[lettre]:
                 print(case, end=' ')
             print()
+
+    def placer_bateau() :
+        #placer les bateaux sur la grille déf au début de la partie
+        pass
+
+    def affiche_bateau() :
+        #affiche la grille avec les bateaux,
+        #les bateaux sont marqués avec une succession de "X"
+        pass
+    
+    def affiche_toucher():
+        #affiche sur le grille defense si l'un de ses bateux c'est fait hit et le supprime si il n'a plus de vie et si c'etait son dernier bateau ecrit victoire 
+        pass
+
+    
+    
 
 #    def test_afficher_grille(self):
 #        for i, lettre in enumerate('ABCDEFGHIJ'):
@@ -70,10 +96,12 @@ class Jeu:
         self.Grille_Défense = Grille_Défense
         self.Bateau = Bateau
 
+   
+
+    def verifier_victoire():
+        pass
+
     
-
-
-
 
 
 
