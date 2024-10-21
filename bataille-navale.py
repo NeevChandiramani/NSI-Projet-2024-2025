@@ -46,7 +46,7 @@ class Grille_Attaque:
                 print(case, end=' ')
             print()
 
-    def boulet_de_canon() :
+    def boulet_de_canon():
         #permet de lancer un boulet sur la grille de défense de l'adversaire
         pass
     
@@ -71,11 +71,11 @@ class Grille_Défense: # celle ou on place nos bateaux
                 print(case, end=' ')
             print()
 
-    def placer_bateau() :
+    def placer_bateau():
         #placer les bateaux sur la grille déf au début de la partie
         pass
 
-    def affiche_bateau() :
+    def affiche_bateau():
         #affiche la grille avec les bateaux,
         #les bateaux sont marqués avec une succession de "X"
         pass
