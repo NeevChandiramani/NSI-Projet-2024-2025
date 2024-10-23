@@ -70,9 +70,23 @@ class Grille_Défense: # celle ou on place nos bateaux
                 print(case, end=' ')
             print()
 
-    def placer_bateau():
-        #placer les bateaux sur la grille déf au début de la partie
-        pass
+
+    def placer_bateau(self):
+        for i in ListeBateaux :
+            print(f"Le nom du bateau est {self.nom}, ça longueur est de {self.longueur}")
+            placementLigne = input("Où voulez-vous placer le bateau sur la ligne ? Choisissez une lettre entre 1 et 10 inclues.")
+            placementColonne = input("Où voulez-vous placer le bateau sur la colonne ? Choisissez un nombre entre A et J inclues.")
+            rep = input("Notez bien que le bateau sera affiché en LONGUEUR à partir du point choisi, si vous voulez faire une rotation du bateau, écrivez 'oui' ")          
+            if rep == "oui" :
+                self.bateau.rotate
+            else :
+                None
+            
+            #je suis perdu à partie d'ici
+            #for i in self.grille[placementColonne] :
+                #print('X')
+
+
 
     def affiche_bateau():
         #affiche la grille avec les bateaux,
@@ -107,7 +121,7 @@ class Jeu:
 
 
 # Création des bateaux
-bateaux = [
+ListeBateaux = [
     Bateau(5, 5, "Le Charles de Gaulle"),
     Bateau(4, 4, "Le mistral"),
     Bateau(3, 3, "L'Aquitaine"),
@@ -122,5 +136,4 @@ bateaux = [
 #    grille = Grilles(joueur, bateaux[0])  # Using the first boat for this example
 #    print("Test de la fonction afficher_grille")
 #    grille.test_afficher_grille()
-
 
