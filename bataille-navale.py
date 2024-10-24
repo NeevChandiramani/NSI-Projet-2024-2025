@@ -1,12 +1,15 @@
 class Joueur:
-    def __init__(self, nom):
+    def __init__(self, nom, numero):
         self.nom = nom
+        self.numero = numero
 
     def Joueur1(self):
+        self.numero = 1
         self.nom = "Joueur 1"
         return self.nom
 
     def Joueur2(self):
+        self.numero = 2
         self.nom = "Joueur 2"
         return self.nom
 
@@ -17,7 +20,8 @@ class Joueur:
     def affiche_nom(self):
         print("Votre pseudo est : ", self.nom)
         return self.nom
-    
+
+
 
 class Bateau:
     def __init__(self, nom, longueur, vie, largeur=1):
@@ -30,6 +34,8 @@ class Bateau:
         # Permet de changer l'orientation du bateau (horizontal à vertical)
         self.longueur, self.largeur = self.largeur, self.longueur
         ## A finir après avoir fait la classe Jeu
+
+
 
 class Grille_Attaque:
     def __init__(self, joueur, bateau):
@@ -45,15 +51,15 @@ class Grille_Attaque:
                 print(case, end=' ')
             print()
 
-    def boulet_de_canon():
-        #permet de lancer un boulet sur la grille de défense de l'adversaire
-        pass
-    
+    def boulet_de_canon(self):
+        if self.numero == 1 :
+            tire_ligne = input() #max doit la finir
+        
+
     def affiche_boulet():
         #permet d'affiche le boulet de canon sur la grille d'attaque du joueur pour savoir s'il a touché ou non
         pass
-    
-    
+
 
 
 class Grille_Défense: # celle ou on place nos bateaux
@@ -70,7 +76,6 @@ class Grille_Défense: # celle ou on place nos bateaux
                 print(case, end=' ')
             print()
 
-
     def placer_bateau(self):
         for i in ListeBateaux :
             print(f"Le nom du bateau est {self.nom}, ça longueur est de {self.longueur}")
@@ -85,8 +90,6 @@ class Grille_Défense: # celle ou on place nos bateaux
             #je suis perdu à partie d'ici
             #for i in self.grille[placementColonne] :
                 #print('X')
-
-
 
     def affiche_bateau():
         #affiche la grille avec les bateaux,
@@ -106,6 +109,7 @@ class Grille_Défense: # celle ou on place nos bateaux
 #        self.afficher_grille()
 
 
+
 class Jeu:
     def __init__(self, Joueur1, Joueur2, Grille_Attaque, Grille_Défense, Bateau):
         self.Joueur1 = Joueur1
@@ -113,7 +117,6 @@ class Jeu:
         self.Grille_Attaque = Grille_Attaque
         self.Grille_Défense = Grille_Défense
         self.Bateau = Bateau
-
 
     def verifier_victoire():
         pass
@@ -137,3 +140,61 @@ ListeBateaux = [
 #    print("Test de la fonction afficher_grille")
 #    grille.test_afficher_grille()
 
+
+
+'_________________________________________________________________________________________________'
+
+#Exemple 1 avec un dico
+
+dictionnaire_grille = { 'A' : [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                        'B' : [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                        'C' : [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                        'D' : [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                        'E' : [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                        'F' : [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                        'G' : [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                        'H' : [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                        'I' : [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                        'J' : [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] }
+
+#print(dictionnaire_grille['A'])
+
+def créer_grille(dictionnaire_grille) :
+    print("  1 2 3 4 5 6 7 8 9 10")
+    for i in dictionnaire_grille.keys :
+        print(i, end = ' ')
+        print(dictionnaire_grille[i])
+
+
+#Exemple 2 avec une liste de liste (ma pref donc on prendra ça pas le choix)
+
+liste_grille = [ ['~', '~', '~', '~', '~', '~', '~', '~', '~', '~'],    #Ligne A
+                 ['~', '~', '~', '~', '~', '~', '~', '~', '~', '~'],    #Ligne B
+                 ['~', '~', '~', '~', '~', '~', '~', '~', '~', '~'],    #Ligne C
+                 ['~', '~', '~', '~', '~', '~', '~', '~', '~', '~'],    #Ligne D
+                 ['~', '~', '~', '~', '~', '~', '~', '~', '~', '~'],    #Ligne E
+                 ['~', '~', '~', '~', '~', '~', '~', '~', '~', '~'],    #Ligne F
+                 ['~', '~', '~', '~', '~', '~', '~', '~', '~', '~'],    #Ligne G
+                 ['~', '~', '~', '~', '~', '~', '~', '~', '~', '~'],    #Ligne H
+                 ['~', '~', '~', '~', '~', '~', '~', '~', '~', '~'],    #Ligne I
+                 ['~', '~', '~', '~', '~', '~', '~', '~', '~', '~'] ]   #Ligne J
+
+liste_lettre = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
+
+#print(liste_grille)
+#print(liste_grille[0][1])
+#liste_grille[2][4] = 'X'
+#print(liste_grille)
+
+
+def lettre_en_nb(tire_ligne) :
+    for i in range(len(liste_lettre)) :         # On va beaucoup se servir de celle là
+        if tire_ligne == liste_lettre[i] :
+            return (i)
+
+
+def affiche_grille(liste_grille) :
+    print ("  1 2 3 4 5 6 7 8 9 10")
+    for i in range(10) :
+        print(liste_lettre[i])
+        print(liste_grille[i])
