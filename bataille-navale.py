@@ -79,8 +79,8 @@ class Grille_Défense: # celle ou on place nos bateaux
     def placer_bateau(self):
         for i in ListeBateaux :
             print(f"Le nom du bateau est {self.nom}, ça longueur est de {self.longueur}")
-            placementLigne = input("Où voulez-vous placer le bateau sur la ligne ? Choisissez une lettre entre 1 et 10 inclues.")
-            placementColonne = input("Où voulez-vous placer le bateau sur la colonne ? Choisissez un nombre entre A et J inclues.")
+            placementLigne = input("Où voulez-vous placer le bateau sur la ligne ? Choisissez un nombre entre 1 et 10 inclues.")
+            placementColonne = input("Où voulez-vous placer le bateau sur la colonne ? Choisissez une lettre entre A et J inclues.")
             rep = input("Notez bien que le bateau sera affiché en LONGUEUR à partir du point choisi, si vous voulez faire une rotation du bateau, écrivez 'oui' ")          
             if rep == "oui" :
                 self.bateau.rotate
