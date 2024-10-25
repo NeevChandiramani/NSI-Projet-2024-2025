@@ -1,25 +1,33 @@
 class Joueur:
+    # définition de la classe Joueur qui représente un joueur du jeu
+
     def __init__(self, nom, numero):
-        self.nom = nom
-        self.numero = numero
+        # constructeur de la classe Joueur qui initialise le nom et le numéro du joueur
+        self.nom = nom  # nom du joueur
+        self.numero = numero  # numéro du joueur pour l'identifier  (1 ou 2)
 
     def Joueur1(self):
-        self.numero = 1
-        self.nom = "Joueur 1"
-        return self.nom
+        # méthode pour configurer le joueu comme "Joueur 1"
+        self.numero = 1  # attribue le numéro 1
+        self.nom = "Joueur 1"  # définit le nom par défaut pour le joueur 1
+        return self.nom  # retourne le nom du joueur
 
     def Joueur2(self):
-        self.numero = 2
-        self.nom = "Joueur 2"
-        return self.nom
+        # méthode pour configurer le joueur comme "Joueur 2"
+        self.numero = 2  # attribue le numéro 2
+        self.nom = "Joueur 2"  # définit le nom par défaut pour le joueur 2
+        return self.nom  # retourne le nom du joueur
 
     def choix_nom(self):
-        self.nom = input("Quel pseudo voulez-vous choisir ? ")
-        return self.nom
+        # méthode pour permettre au joueur de choisir un pseudonyme
+        self.nom = input("Quel pseudo voulez-vous choisir ? ")  # demande à l utilisateur d'entrer un pseudo
+        return self.nom  # retourne le pseudo choisi
 
     def affiche_nom(self):
-        print("Votre pseudo est : ", self.nom)
-        return self.nom
+        # méthode pour afficher le nom actuel du joueur
+        print("Votre pseudo est :", self.nom)  # affiche le pseudo du joueur
+        return self.nom  # retourne le nom du joueur
+
 
 
 
@@ -38,10 +46,16 @@ class Bateau:
 
 
 class Grille_Attaque:
-    def __init__(self, joueur, bateau):
+    def __init__(self, joueur, bateau, grille):
         self.joueur = joueur
         self.bateau = bateau
-        self.grille = {lettre: ['~' for _ in range(10)] for lettre in 'ABCDEFGHIJ'}
+        self.grille = grille
+
+
+    def créer_grille(self, dictionnaire_grille) :
+        for i in dictionnaire_grille :
+            dictionnaire_grille[i] = ['~'] * 10
+
 
     def afficher_grille(self):
         print("  1 2 3 4 5 6 7 8 9 10")
@@ -63,18 +77,16 @@ class Grille_Attaque:
 
 
 class Grille_Défense: # celle ou on place nos bateaux
-    def __init__(self, joueur, bateau):
+    def __init__(self, joueur, bateau, grille):
         self.joueur = joueur
         self.bateau = bateau
-        self.grille = {lettre: ['~' for _ in range(10)] for lettre in 'ABCDEFGHIJ'}
+        self.grille = grille
+    
+    def créer_grille(dictionnaire_grille) :
+        for i in dictionnaire_grille :
+            dictionnaire_grille[i] =['~'] * 10
 
-    def afficher_grille(self):
-        print("  1 2 3 4 5 6 7 8 9 10")
-        for lettre in 'ABCDEFGHIJ':
-            print(lettre, end=' ')
-            for case in self.grille[lettre]:
-                print(case, end=' ')
-            print()
+    
 
     def placer_bateau(self):
         for i in ListeBateaux :
@@ -118,7 +130,7 @@ class Jeu:
         self.Grille_Défense = Grille_Défense
         self.Bateau = Bateau
 
-    def verifier_victoire():
+    def verifier_victoire(self,):
         pass
 
 
@@ -159,17 +171,219 @@ dictionnaire_grille = { 'A' : [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
 
 #print(dictionnaire_grille['A'])
 
-def créer_grille(dictionnaire_grille) :
-    print("  1 2 3 4 5 6 7 8 9 10")
-    for i in dictionnaire_grille.keys :
-        print(i, end = ' ')
-        print(dictionnaire_grille[i])
 
 
-def créer_grille(dictionnaire_grille) :
+def affiche_grille(dictionnaire_grille) :
     print("   1  2  3  4  5  6  7  8  9  10")
     for i in dictionnaire_grille :
         print(i, end = ' ')
         print(dictionnaire_grille[i])
 
 #créer_grille(dictionnaire_grille)
+############################################################################################################################################################################################################################################################################################################################################################
+import os
+import time
+
+class Bateau:
+    def __init__(self, nom, taille):
+        self.nom = nom
+        self.taille = taille
+        self.positions = []
+        self.touches = []
+    
+    def est_coule(self):
+        """Vérifie si le bateau est coulé"""
+        return len(self.touches) == self.taille
+    
+    def est_touche(self, x, y):
+        """Vérifie si une position donnée touche le bateau"""
+        return (x, y) in self.positions
+
+class Plateau:
+    def __init__(self, nom_joueur, taille=10):
+        self.nom_joueur = nom_joueur
+        self.taille = taille
+        self.grille = [['~' for _ in range(taille)] for _ in range(taille)]
+        self.bateaux = []
+        
+        # Symboles pour l'affichage
+        self.EAU = '~'
+        self.BATEAU = 'B'
+        self.TOUCHE = 'X'
+        self.RATE = 'O'
+    
+    def afficher(self, montrer_bateaux=False):
+        """Affiche le plateau de jeu"""
+        print(f"\nPlateau de {self.nom_joueur}:")
+        print("  ", end="")
+        for i in range(self.taille):
+            print(f"{i} ", end="")
+        print("\n")
+        
+        for i in range(self.taille):
+            print(f"{i} ", end="")
+            for j in range(self.taille):
+                symbole = self.grille[i][j]
+                if not montrer_bateaux and symbole == self.BATEAU:
+                    print(f"{self.EAU} ", end="")
+                else:
+                    print(f"{symbole} ", end="")
+            print()
+    
+    def placer_bateau(self, bateau, x, y, horizontal):
+        """Place un bateau sur le plateau"""
+        positions_possibles = []
+        
+        if horizontal:
+            if y + bateau.taille > self.taille:
+                return False
+            
+            for i in range(bateau.taille):
+                if self.grille[x][y + i] != self.EAU:
+                    return False
+                positions_possibles.append((x, y + i))
+        else:
+            if x + bateau.taille > self.taille:
+                return False
+            
+            for i in range(bateau.taille):
+                if self.grille[x + i][y] != self.EAU:
+                    return False
+                positions_possibles.append((x + i, y))
+        
+        for pos_x, pos_y in positions_possibles:
+            self.grille[pos_x][pos_y] = self.BATEAU
+        
+        bateau.positions = positions_possibles
+        self.bateaux.append(bateau)
+        return True
+    
+    def recevoir_tir(self, x, y):
+        """Traite un tir reçu"""
+        if not (0 <= x < self.taille and 0 <= y < self.taille):
+            return False, "Tir hors du plateau !"
+        
+        if self.grille[x][y] in [self.TOUCHE, self.RATE]:
+            return False, "Cette case a déjà été touchée !"
+        
+        for bateau in self.bateaux:
+            if (x, y) in bateau.positions:
+                bateau.touches.append((x, y))
+                self.grille[x][y] = self.TOUCHE
+                
+                if bateau.est_coule():
+                    return True, f"Coulé ! Le {bateau.nom} est détruit !"
+                return True, "Touché !"
+        
+        self.grille[x][y] = self.RATE
+        return True, "Manqué !"
+
+class BatailleNavaleMultijoueur:
+    def __init__(self):
+        # Demande les noms des joueurs
+        print("=== BATAILLE NAVALE MULTIJOUEUR ===")
+        self.nom_joueur1 = input("Nom du Joueur 1: ")
+        self.nom_joueur2 = input("Nom du Joueur 2: ")
+        
+        # Crée les plateaux
+        self.plateau_joueur1 = Plateau(self.nom_joueur1)
+        self.plateau_joueur2 = Plateau(self.nom_joueur2)
+        
+        # Définition des bateaux
+        self.types_bateaux = [
+            ("Porte-avions", 5),
+            ("Croiseur", 4),
+            ("Contre-torpilleur", 3),
+            ("Sous-marin", 3),
+            ("Torpilleur", 2)
+        ]
+
+    def effacer_ecran(self):
+        """Efface l'écran pour plus de confidentialité"""
+        os.system('cls' if os.name == 'nt' else 'clear')
+    
+    def attendre_joueur(self, nom_joueur):
+        """Attend que le joueur soit prêt"""
+        input(f"\n{nom_joueur}, appuyez sur Entrée quand vous êtes prêt...")
+        self.effacer_ecran()
+    
+    def placer_bateaux_joueur(self, plateau, nom_joueur):
+        """Permet à un joueur de placer ses bateaux"""
+        print(f"\n{nom_joueur}, placez vos bateaux:")
+        
+        for nom, taille in self.types_bateaux:
+            while True:
+                plateau.afficher(True)
+                print(f"\nPlacer le {nom} (taille: {taille})")
+                
+                try:
+                    x = int(input("Ligne (0-9): "))
+                    y = int(input("Colonne (0-9): "))
+                    orientation = input("Horizontal (o/n)? ").lower()
+                    horizontal = orientation == 'o'
+                    
+                    if plateau.placer_bateau(Bateau(nom, taille), x, y, horizontal):
+                        break
+                    else:
+                        print("\nPosition invalide ! Réessayez.")
+                except ValueError:
+                    print("\nEntrée invalide ! Utilisez des nombres entre 0-9.")
+    
+    def tour_joueur(self, attaquant, defenseur, nom_attaquant, nom_defenseur):
+        """Gère le tour d'un joueur"""
+        print(f"\nTour de {nom_attaquant}:")
+        print("\nVotre plateau:")
+        attaquant.afficher(True)
+        print("\nPlateau adverse:")
+        defenseur.afficher(False)
+        
+        while True:
+            try:
+                x = int(input("Ligne de tir (0-9): "))
+                y = int(input("Colonne de tir (0-9): "))
+                
+                valide, message = defenseur.recevoir_tir(x, y)
+                print(message)
+                
+                if valide:
+                    return self.verifier_victoire(defenseur)
+            except ValueError:
+                print("Entrée invalide ! Utilisez des nombres entre 0-9.")
+    
+    def verifier_victoire(self, plateau):
+        """Vérifie si tous les bateaux sont coulés"""
+        return all(bateau.est_coule() for bateau in plateau.bateaux)
+    
+    def jouer(self):
+        """Lance une partie"""
+        # Phase de placement des bateaux
+        self.placer_bateaux_joueur(self.plateau_joueur1, self.nom_joueur1)
+        self.attendre_joueur(self.nom_joueur2)
+        
+        self.placer_bateaux_joueur(self.plateau_joueur2, self.nom_joueur2)
+        self.attendre_joueur(self.nom_joueur1)
+        
+        # Boucle de jeu
+        tour_joueur1 = True
+        
+        while True:
+            self.effacer_ecran()
+            
+            if tour_joueur1:
+                if self.tour_joueur(self.plateau_joueur1, self.plateau_joueur2, 
+                                  self.nom_joueur1, self.nom_joueur2):
+                    print(f"\nFélicitations {self.nom_joueur1} ! Vous avez gagné !")
+                    break
+            else:
+                if self.tour_joueur(self.plateau_joueur2, self.plateau_joueur1,
+                                  self.nom_joueur2, self.nom_joueur1):
+                    print(f"\nFélicitations {self.nom_joueur2} ! Vous avez gagné !")
+                    break
+            
+            tour_joueur1 = not tour_joueur1
+            self.attendre_joueur(self.nom_joueur1 if tour_joueur1 else self.nom_joueur2)
+
+# Lancement du jeu
+if __name__ == "__main__":
+    jeu = BatailleNavaleMultijoueur()
+    jeu.jouer()
