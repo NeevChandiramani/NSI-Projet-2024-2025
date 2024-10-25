@@ -33,3 +33,11 @@ class Plateau:
         self.BATEAU = 'B'     # Case avec un bateau
         self.TOUCHE = 'X'     # Tir qui a touché
         self.RATE = 'O'       # Tir raté
+
+    def afficher(self, montrer_bateaux = False) :
+        print ("   1 2 3 4 5 6 7 8 9")
+        for i in range(self.taille) :
+            print(i, end = ' ')
+            for j in range(self.taille) :
+                print(self.EAU, end = ' ')
+            print()
