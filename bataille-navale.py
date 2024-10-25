@@ -166,35 +166,10 @@ def créer_grille(dictionnaire_grille) :
         print(dictionnaire_grille[i])
 
 
-#Exemple 2 avec une liste de liste (ma pref donc on prendra ça pas le choix)
+def créer_grille(dictionnaire_grille) :
+    print("   1  2  3  4  5  6  7  8  9  10")
+    for i in dictionnaire_grille :
+        print(i, end = ' ')
+        print(dictionnaire_grille[i])
 
-liste_grille = [ ['~', '~', '~', '~', '~', '~', '~', '~', '~', '~'],    #Ligne A
-                 ['~', '~', '~', '~', '~', '~', '~', '~', '~', '~'],    #Ligne B
-                 ['~', '~', '~', '~', '~', '~', '~', '~', '~', '~'],    #Ligne C
-                 ['~', '~', '~', '~', '~', '~', '~', '~', '~', '~'],    #Ligne D
-                 ['~', '~', '~', '~', '~', '~', '~', '~', '~', '~'],    #Ligne E
-                 ['~', '~', '~', '~', '~', '~', '~', '~', '~', '~'],    #Ligne F
-                 ['~', '~', '~', '~', '~', '~', '~', '~', '~', '~'],    #Ligne G
-                 ['~', '~', '~', '~', '~', '~', '~', '~', '~', '~'],    #Ligne H
-                 ['~', '~', '~', '~', '~', '~', '~', '~', '~', '~'],    #Ligne I
-                 ['~', '~', '~', '~', '~', '~', '~', '~', '~', '~'] ]   #Ligne J
-
-liste_lettre = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
-
-#print(liste_grille)
-#print(liste_grille[0][1])
-#liste_grille[2][4] = 'X'
-#print(liste_grille)
-
-
-def lettre_en_nb(tire_ligne) :
-    for i in range(len(liste_lettre)) :         # On va beaucoup se servir de celle là
-        if tire_ligne == liste_lettre[i] :
-            return (i)
-
-
-def affiche_grille(liste_grille) :
-    print ("  1 2 3 4 5 6 7 8 9 10")
-    for i in range(10) :
-        print(liste_lettre[i])
-        print(liste_grille[i])
+#créer_grille(dictionnaire_grille)
