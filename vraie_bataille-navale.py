@@ -15,3 +15,21 @@ class Bateau:
     def est_touche(self, x, y):
         """Vérifie si une position donnée touche le bateau"""
         return (x, y) in self.positions
+    
+
+
+class Plateau:
+    def __init__(self, taille=10):
+        # Création du plateau vide (eau partout)
+        self.taille = taille
+        self.grille = []
+        for _ in range(taille):
+            ligne = ['~'] * taille
+            self.grille.append(ligne)
+        self.bateaux = []
+        
+        # Symboles utilisés pour l'affichage
+        self.EAU = '~'        # Case d'eau
+        self.BATEAU = 'B'     # Case avec un bateau
+        self.TOUCHE = 'X'     # Tir qui a touché
+        self.RATE = 'O'       # Tir raté
