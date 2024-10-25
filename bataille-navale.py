@@ -181,18 +181,17 @@ def affiche_grille(dictionnaire_grille) :
 
 #créer_grille(dictionnaire_grille)
 ############################################################################################################################################################################################################################################################################################################################################################
-import os
-import time
+import random
 
 class Bateau:
     def __init__(self, nom, taille):
-        self.nom = nom
-        self.taille = taille
-        self.positions = []
-        self.touches = []
+        self.nom = nom        # Nom du bateau (ex: "Porte-avions")
+        self.taille = taille  # Longueur du bateau
+        self.positions = []   # Liste des coordonnées occupées par le bateau
+        self.touches = []     # Liste des positions touchées par l'adversaire
     
     def est_coule(self):
-        """Vérifie si le bateau est coulé"""
+        """Vérifie si le bateau est coulé (toutes les positions sont touchées)"""
         return len(self.touches) == self.taille
     
     def est_touche(self, x, y):
@@ -200,72 +199,86 @@ class Bateau:
         return (x, y) in self.positions
 
 class Plateau:
-    def __init__(self, nom_joueur, taille=10):
-        self.nom_joueur = nom_joueur
+    def __init__(self, taille=10):
+        # Création du plateau vide (eau partout)
         self.taille = taille
         self.grille = [['~' for _ in range(taille)] for _ in range(taille)]
         self.bateaux = []
         
-        # Symboles pour l'affichage
-        self.EAU = '~'
-        self.BATEAU = 'B'
-        self.TOUCHE = 'X'
-        self.RATE = 'O'
+        # Symboles utilisés pour l'affichage
+        self.EAU = '~'        # Case d'eau
+        self.BATEAU = 'B'     # Case avec un bateau
+        self.TOUCHE = 'X'     # Tir qui a touché
+        self.RATE = 'O'       # Tir raté
     
     def afficher(self, montrer_bateaux=False):
         """Affiche le plateau de jeu"""
-        print(f"\nPlateau de {self.nom_joueur}:")
-        print("  ", end="")
+        # Affichage des numéros de colonnes
+        print("\n  ", end="")
         for i in range(self.taille):
             print(f"{i} ", end="")
         print("\n")
         
+        # Affichage des lignes
         for i in range(self.taille):
-            print(f"{i} ", end="")
+            print(f"{i} ", end="")  # Numéro de ligne
             for j in range(self.taille):
                 symbole = self.grille[i][j]
+                # Cache les bateaux si demandé
                 if not montrer_bateaux and symbole == self.BATEAU:
                     print(f"{self.EAU} ", end="")
                 else:
                     print(f"{symbole} ", end="")
-            print()
+            print()  # Nouvelle ligne
     
     def placer_bateau(self, bateau, x, y, horizontal):
-        """Place un bateau sur le plateau"""
+        """Essaie de placer un bateau aux coordonnées données"""
         positions_possibles = []
         
+        # Vérifie si le bateau peut être placé horizontalement
         if horizontal:
+            # Vérifie si le bateau ne sort pas du plateau
             if y + bateau.taille > self.taille:
                 return False
             
+            # Vérifie si les cases sont libres
             for i in range(bateau.taille):
                 if self.grille[x][y + i] != self.EAU:
                     return False
                 positions_possibles.append((x, y + i))
+        
+        # Placement vertical
         else:
+            # Vérifie si le bateau ne sort pas du plateau
             if x + bateau.taille > self.taille:
                 return False
             
+            # Vérifie si les cases sont libres
             for i in range(bateau.taille):
                 if self.grille[x + i][y] != self.EAU:
                     return False
                 positions_possibles.append((x + i, y))
         
+        # Place le bateau sur le plateau
         for pos_x, pos_y in positions_possibles:
             self.grille[pos_x][pos_y] = self.BATEAU
         
+        # Enregistre les positions dans le bateau
         bateau.positions = positions_possibles
         self.bateaux.append(bateau)
         return True
     
     def recevoir_tir(self, x, y):
-        """Traite un tir reçu"""
+        """Traite un tir aux coordonnées données"""
+        # Vérifie si les coordonnées sont valides
         if not (0 <= x < self.taille and 0 <= y < self.taille):
             return False, "Tir hors du plateau !"
         
+        # Vérifie si la case a déjà été touchée
         if self.grille[x][y] in [self.TOUCHE, self.RATE]:
             return False, "Cette case a déjà été touchée !"
         
+        # Cherche si un bateau est touché
         for bateau in self.bateaux:
             if (x, y) in bateau.positions:
                 bateau.touches.append((x, y))
@@ -275,21 +288,16 @@ class Plateau:
                     return True, f"Coulé ! Le {bateau.nom} est détruit !"
                 return True, "Touché !"
         
+        # Aucun bateau touché
         self.grille[x][y] = self.RATE
         return True, "Manqué !"
 
-class BatailleNavaleMultijoueur:
+class BatailleNavale:
     def __init__(self):
-        # Demande les noms des joueurs
-        print("=== BATAILLE NAVALE MULTIJOUEUR ===")
-        self.nom_joueur1 = input("Nom du Joueur 1: ")
-        self.nom_joueur2 = input("Nom du Joueur 2: ")
+        self.plateau_joueur = Plateau()
+        self.plateau_ordinateur = Plateau()
         
-        # Crée les plateaux
-        self.plateau_joueur1 = Plateau(self.nom_joueur1)
-        self.plateau_joueur2 = Plateau(self.nom_joueur2)
-        
-        # Définition des bateaux
+        # Définition des bateaux du jeu
         self.types_bateaux = [
             ("Porte-avions", 5),
             ("Croiseur", 4),
@@ -297,93 +305,104 @@ class BatailleNavaleMultijoueur:
             ("Sous-marin", 3),
             ("Torpilleur", 2)
         ]
-
-    def effacer_ecran(self):
-        """Efface l'écran pour plus de confidentialité"""
-        os.system('cls' if os.name == 'nt' else 'clear')
     
-    def attendre_joueur(self, nom_joueur):
-        """Attend que le joueur soit prêt"""
-        input(f"\n{nom_joueur}, appuyez sur Entrée quand vous êtes prêt...")
-        self.effacer_ecran()
-    
-    def placer_bateaux_joueur(self, plateau, nom_joueur):
-        """Permet à un joueur de placer ses bateaux"""
-        print(f"\n{nom_joueur}, placez vos bateaux:")
-        
+    def placer_bateaux_joueur(self):
+        """Permet au joueur de placer ses bateaux"""
+        print("\nPlacement de vos bateaux:")
         for nom, taille in self.types_bateaux:
             while True:
-                plateau.afficher(True)
+                self.plateau_joueur.afficher(True)
                 print(f"\nPlacer le {nom} (taille: {taille})")
                 
                 try:
+                    # Demande les coordonnées
                     x = int(input("Ligne (0-9): "))
                     y = int(input("Colonne (0-9): "))
+                    
+                    # Demande l'orientation
                     orientation = input("Horizontal (o/n)? ").lower()
                     horizontal = orientation == 'o'
                     
-                    if plateau.placer_bateau(Bateau(nom, taille), x, y, horizontal):
+                    # Essaie de placer le bateau
+                    if self.plateau_joueur.placer_bateau(Bateau(nom, taille), x, y, horizontal):
                         break
                     else:
                         print("\nPosition invalide ! Réessayez.")
                 except ValueError:
-                    print("\nEntrée invalide ! Utilisez des nombres entre 0-9.")
+                    print("\nEntrée invalide ! Utilisez des nombres entre 0 et 9.")
     
-    def tour_joueur(self, attaquant, defenseur, nom_attaquant, nom_defenseur):
-        """Gère le tour d'un joueur"""
-        print(f"\nTour de {nom_attaquant}:")
-        print("\nVotre plateau:")
-        attaquant.afficher(True)
-        print("\nPlateau adverse:")
-        defenseur.afficher(False)
-        
+    def placer_bateaux_ordinateur(self):
+        """Place aléatoirement les bateaux de l'ordinateur"""
+        print("\nL'ordinateur place ses bateaux...")
+        for nom, taille in self.types_bateaux:
+            while True:
+                # Génère des coordonnées aléatoires
+                x = random.randint(0, 9)
+                y = random.randint(0, 9)
+                horizontal = random.choice([True, False])
+                
+                if self.plateau_ordinateur.placer_bateau(Bateau(nom, taille), x, y, horizontal):
+                    break
+    
+    def tour_joueur(self):
+        """Gère le tour du joueur"""
+        print("\nVotre tour!")
         while True:
             try:
                 x = int(input("Ligne de tir (0-9): "))
                 y = int(input("Colonne de tir (0-9): "))
                 
-                valide, message = defenseur.recevoir_tir(x, y)
+                valide, message = self.plateau_ordinateur.recevoir_tir(x, y)
                 print(message)
                 
                 if valide:
-                    return self.verifier_victoire(defenseur)
+                    return self.verifier_victoire(self.plateau_ordinateur)
             except ValueError:
-                print("Entrée invalide ! Utilisez des nombres entre 0-9.")
+                print("Entrée invalide ! Utilisez des nombres entre 0 et 9.")
+    
+    def tour_ordinateur(self):
+        """Gère le tour de l'ordinateur"""
+        print("\nTour de l'ordinateur:")
+        while True:
+            x = random.randint(0, 9)
+            y = random.randint(0, 9)
+            
+            valide, message = self.plateau_joueur.recevoir_tir(x, y)
+            if valide:
+                print(f"L'ordinateur tire en ({x}, {y}): {message}")
+                return self.verifier_victoire(self.plateau_joueur)
     
     def verifier_victoire(self, plateau):
-        """Vérifie si tous les bateaux sont coulés"""
+        """Vérifie si tous les bateaux sont coulés sur un plateau"""
         return all(bateau.est_coule() for bateau in plateau.bateaux)
     
     def jouer(self):
-        """Lance une partie"""
-        # Phase de placement des bateaux
-        self.placer_bateaux_joueur(self.plateau_joueur1, self.nom_joueur1)
-        self.attendre_joueur(self.nom_joueur2)
+        """Lance une partie de bataille navale"""
+        print("=== BATAILLE NAVALE ===")
         
-        self.placer_bateaux_joueur(self.plateau_joueur2, self.nom_joueur2)
-        self.attendre_joueur(self.nom_joueur1)
+        # Phase de placement
+        self.placer_bateaux_joueur()
+        self.placer_bateaux_ordinateur()
         
         # Boucle de jeu
-        tour_joueur1 = True
-        
         while True:
-            self.effacer_ecran()
+            # Affichage des plateaux
+            print("\nVotre plateau:")
+            self.plateau_joueur.afficher(True)
+            print("\nPlateau de l'ordinateur:")
+            self.plateau_ordinateur.afficher(False)
             
-            if tour_joueur1:
-                if self.tour_joueur(self.plateau_joueur1, self.plateau_joueur2, 
-                                  self.nom_joueur1, self.nom_joueur2):
-                    print(f"\nFélicitations {self.nom_joueur1} ! Vous avez gagné !")
-                    break
-            else:
-                if self.tour_joueur(self.plateau_joueur2, self.plateau_joueur1,
-                                  self.nom_joueur2, self.nom_joueur1):
-                    print(f"\nFélicitations {self.nom_joueur2} ! Vous avez gagné !")
-                    break
+            # Tour du joueur
+            if self.tour_joueur():
+                print("\nFélicitations ! Vous avez gagné !")
+                break
             
-            tour_joueur1 = not tour_joueur1
-            self.attendre_joueur(self.nom_joueur1 if tour_joueur1 else self.nom_joueur2)
+            # Tour de l'ordinateur
+            if self.tour_ordinateur():
+                print("\nL'ordinateur a gagné !")
+                break
 
 # Lancement du jeu
 if __name__ == "__main__":
-    jeu = BatailleNavaleMultijoueur()
+    jeu = BatailleNavale()
     jeu.jouer()
