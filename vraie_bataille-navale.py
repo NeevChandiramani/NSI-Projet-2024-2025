@@ -43,7 +43,45 @@ class Plateau:
             print()
 
 
-    def placer_bateau():
+    def placer_bateau(self,bateau,x,y,horizontal):
+        """Essaie de placer un bateau aux coordonnées données"""
+        positions_possibles = []
+        
+        # Vérifie si le bateau peut être placé horizontalement
+        if horizontal:
+            # Vérifie si le bateau ne sort pas du plateau
+            if y + bateau.taille > self.taille:
+                return False
+            
+            # Vérifie si les cases sont libres
+            for i in range(bateau.taille):
+                if self.grille[x][y + i] != self.EAU:
+                    return False
+                positions_possibles.append((x, y + i))
+        
+        # Placement vertical
+        else:
+            # Vérifie si le bateau ne sort pas du plateau
+            if x + bateau.taille > self.taille:
+                return False
+            
+            # Vérifie si les cases sont libres
+            for i in range(bateau.taille):
+                if self.grille[x + i][y] != self.EAU:
+                    return False
+                positions_possibles.append((x + i, y))
+        
+        # Place le bateau sur le plateau
+        for pos_x, pos_y in positions_possibles:
+            self.grille[pos_x][pos_y] = self.BATEAU
+        
+        # Enregistre les positions dans le bateau
+        bateau.positions = positions_possibles
+        self.bateaux.append(bateau)
+        return True                    
+                                      
+
+
         
         pass
 
