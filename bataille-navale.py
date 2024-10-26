@@ -64,10 +64,6 @@ class Grille_Attaque:
             for case in self.grille[lettre]:
                 print(case, end=' ')
             print()
-
-    def boulet_de_canon(self):
-        if self.numero == 1 :
-            tire_ligne = input() #max doit la finir
         
 
     def affiche_boulet():
