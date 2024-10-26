@@ -148,4 +148,17 @@ class BatailleNavale:
                     else:
                         print("\nPosition invalide ! Réessayez.")
                 except ValueError:
-                    print("\nEntrée invalide ! Utilisez des nombres entre 1 et 10.")
+                   print("\nEntrée invalide ! Utilisez des nombres entre 1 et 10.")
+
+
+
+        def placer_bateaux_ordinateur(self):
+            print("\nL'ordinateur place ses bateaux...")
+            for nom, taille in self.types_bateaux:
+                while not self.plateau_ordinateur.placer_bateau(
+                  Bateau(nom, taille),
+                  random.randint(0, 9),
+                  random.randint(0, 9),
+                  random.choice([True, False])
+                 ):
+            pass
