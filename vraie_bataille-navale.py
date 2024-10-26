@@ -41,3 +41,31 @@ class Plateau:
             for j in range(self.taille) :
                 print(self.EAU, end = ' ')
             print()
+
+
+    def placer_bateau():
+        
+        pass
+
+    
+    def boulet_de_canon(self, x, y) :
+        if not (0 <= x < self.taille and 0 <= y < self.taille) :    #Définir si le boulet est dans la grille
+            print ("Le boulet de canon est sorti de la grille")
+            return False
+        if self.grille[x][y] == self.TOUCHE or self.grille[x][y] == self.RATE :     #Définir si l'endroit de la grille n'a pas déjà été touché.
+            print ("Un boulet de canon a déjà atterit ici !")
+            return False
+        for bateau in self.bateaux :
+            if (x, y) in bateau.positions :
+                bateau.touches.append((x, y))
+                self.grille[x][y] = self.TOUCHE
+                if bateau.est_coule() :
+                    print (f" Touché Coulé, le {bateau.nom} est détruit !")
+                    return True
+                else :
+                    print ("Touché !")
+                    return True
+            else :
+                self.grille[x][y] = self.RATE
+                print ("Manqué !")
+                return True
