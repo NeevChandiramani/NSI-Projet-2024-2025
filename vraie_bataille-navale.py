@@ -12,9 +12,10 @@ class Bateau:
         """Vérifie si le bateau est coulé (toutes les positions sont touchées)"""
         return len(self.touches) == self.taille
     
-    def est_touche(self, x, y):
-        """Vérifie si une position donnée touche le bateau"""
-        return (x, y) in self.positions
+    def est_touche(self,x,y):
+        if (x,y) in self.position:
+            return True 
+        return False 
     
 
 
