@@ -153,13 +153,35 @@ class BatailleNavale:
 
 
 
-        def placer_bateaux_ordinateur(self):
-            print("\nL'ordinateur place ses bateaux...")
-            for nom, taille in self.types_bateaux:
-                while not self.plateau_ordinateur.placer_bateau(
-                  Bateau(nom, taille),
-                  random.randint(0, 9),
-                  random.randint(0, 9),
-                  random.choice([True, False])
-                 ):
-            pass
+    def placer_bateaux_ordinateur(self):
+        print("\nL'ordinateur place ses bateaux...")
+        for nom, taille in self.types_bateaux:
+            while not self.plateau_ordinateur.placer_bateau(
+                Bateau(nom, taille),
+                random.randint(0, 9),
+                random.randint(0, 9),
+                random.choice([True, False])
+                ):
+                    pass
+
+    def tour_joueur(self) :
+        print("C'est votre tour !")
+        while True :
+            x = int(input("Choisissez une ligne de tir entre 1 et 10."))
+            y = int(input("Choisissez une colonne de tir entre 1 et 10."))
+            rep = self.plateau_ordinateur.boulet_de_canon(x, y)
+            if rep == False :
+                print(rep)
+                print("Entrée invalide, utilisez des chiffres entre 1 et 10.")
+            elif rep == True :
+                return self.verifier_victoire(self.plateau_ordinateur)
+                
+    def tour_ordinateur(self) :
+        print("C'est au tour de l'ordinateur.")
+        while True :
+            x = random.randint(1, 10)
+            y = random.ranidnt(1, 10)
+            rep = self.plateau_joueur.boulet_de_canon(x, y)
+            if rep == True :
+                print (f"L'ordinateur tire en ({x}, {y}) : {rep}")
+                return self.verifier_victoire(self.plateau_joueur)
