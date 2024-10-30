@@ -180,7 +180,7 @@ class BatailleNavale:
         print("C'est au tour de l'ordinateur.")
         while True :
             x = random.randint(1, 10)
-            y = random.ranidnt(1, 10)
+            y = random.randint(1, 10)
             rep = self.plateau_joueur.boulet_de_canon(x, y)
             if rep == True :
                 print (f"L'ordinateur tire en ({x}, {y}) : {rep}")
