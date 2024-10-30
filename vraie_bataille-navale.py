@@ -122,7 +122,7 @@ class BatailleNavale:
             ("Le Mistral", 4),
             ("L'Aquitaine", 3),
             ("La Fayette", 3),
-            ("Le Lafaux", 2)
+            ("Le Lafaux", 2),
             ("La Barque", 1)
         ]
 
