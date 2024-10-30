@@ -13,7 +13,7 @@ class Bateau:
         return len(self.touches) == self.taille
     
     def est_touche(self,x,y):
-        if (x,y) in self.position:
+        if (x,y) in self.positions:
             return True 
         return False 
     
