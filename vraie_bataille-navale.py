@@ -89,7 +89,9 @@ class Plateau:
 
     
     def boulet_de_canon(self, x, y) :
-        if not (1 <= x < self.taille and 1 <= y < self.taille) :    #Définir si le boulet est dans la grille
+        # Ajustement des coordonnées (0-based indexing)
+        x, y = x-1, y-1
+        if not (0 <= x < self.taille and 0 <= y < self.taille) :    #Définir si le boulet est dans la grille
             print ("Le boulet de canon est sorti de la grille")
             return False
         if self.grille[x][y] == self.TOUCHE or self.grille[x][y] == self.RATE :     #Définir si l'endroit de la grille n'a pas déjà été touché.
