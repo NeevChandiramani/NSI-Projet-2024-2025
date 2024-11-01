@@ -36,7 +36,7 @@ class Plateau:
         self.RATE = 'O'       # Tir raté
 
     def afficher(self, montrer_bateaux = False) :
-        print ("   1 2 3 4 5 6 7 8 9 10")
+        print ("  1 2 3 4 5 6 7 8 9 10")
         for i in range(self.taille) :
             print((i + 1), end = ' ')
             for j in range(self.taille) :
