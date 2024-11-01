@@ -1,4 +1,5 @@
 import random
+import time 
 
 class Bateau:
     def __init__(self, nom, taille):
@@ -36,20 +37,27 @@ class Plateau:
         self.RATE = 'O'       # Tir raté
 
     def afficher(self, montrer_bateaux = False) :
-        print ("  1 2 3 4 5 6 7 8 9 10")
+        print ("   1 2 3 4 5 6 7 8 9 10")
         for i in range(self.taille) :
-            print((i + 1), end = ' ')
+            print((i + 1), end = '  ',)
             for j in range(self.taille) :
                 case = self.grille[i][j]
-                if not montrer_bateaux :
+                if not montrer_bateaux and case == self.BATEAU :
                     print(self.EAU, end = ' ')      # Affiche uniquement des vagues si montrer_bateaux est toujours = False
                 else :
                     print(case, end = ' ')          # Affiche Les endroits où il y'a des bateaux quand montrer_bateaux = True
             print()
 
 
-    def placer_bateau(self,bateau,x,y,horizontal):
+    def placer_bateau(self, bateau, x, y, horizontal):
         """Essaie de placer un bateau aux coordonnées données"""
+        # Ajuster les coordonnées (1-10 -> 0-9)
+        x = x - 1
+        y = y - 1
+        
+        if not (0 <= x < self.taille and 0 <= y < self.taille):
+            return False
+    
         positions_possibles = []
         
         # Vérifie si le bateau peut être placé horizontalement
@@ -83,38 +91,45 @@ class Plateau:
         # Enregistre les positions dans le bateau
         bateau.positions = positions_possibles # devient les position impossibles pour placer un autre bateau
         self.bateaux.append(bateau)
-        return True                    
-                                      
+        return True
 
-    
-    def boulet_de_canon(self, x, y) :
-        # Ajustement des coordonnées (0-based indexing)
-        Liste = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-        x, y = x-1, y-1
+    def boulet_de_canon(self, x, y):
+        """
+        Lance un boulet de canon aux coordonnées spécifiées
         
-        if x and y not in Liste :
-            print("Utilisez des chiffres entre 1 et 10")
-            return False          
-        if not (0 <= x < self.taille and 0 <= y < self.taille) :    #Définir si le boulet est dans la grille
-            print ("Le boulet de canon est sorti de la grille")
-            return False
-        if self.grille[x][y] == self.TOUCHE or self.grille[x][y] == self.RATE :     #Définir si l'endroit de la grille n'a pas déjà été touché.
-            print ("Un boulet de canon a déjà atterit ici !")
-            return False
-        for bateau in self.bateaux :
-            if (x, y) in bateau.positions :
+        Args:
+            x (int): Ligne (1-10)
+            y (int): Colonne (1-10)
+            
+        Returns:
+            bool: True si le tir est valide (touché ou manqué), False si invalide
+        """
+        # Vérifier que les coordonnées sont dans la plage 1-10
+        if not (1 <= x <= 10 and 1 <= y <= 10):
+            return False, "Utilisez des chiffres entre 1 et 10"
+
+        # Ajuster les coordonnées pour l'index 0-based
+        x = x - 1
+        y = y - 1
+        
+        # Vérifier si la case a déjà été ciblée
+        if self.grille[x][y] in [self.TOUCHE, self.RATE]:
+            return False, "Un boulet de canon a déjà atterri ici !"
+            
+        # Vérifier tous les bateaux
+        for bateau in self.bateaux:
+            if (x, y) in bateau.positions:
                 bateau.touches.append((x, y))
                 self.grille[x][y] = self.TOUCHE
-                if bateau.est_coule() :
-                    print (f" Touché Coulé, le {bateau.nom} est détruit !")
-                    return True
-                else :
-                    print ("Touché !")
-                    return True
-            else :
-                self.grille[x][y] = self.RATE
-                print ("Manqué !")
-                return True
+                if bateau.est_coule():
+                    return True, f"Touché Coulé, le {bateau.nom} est détruit !"
+                return True, "Touché !"
+        
+        # Si aucun bateau n'est touché
+        self.grille[x][y] = self.RATE
+        return True, "Manqué !"        
+                                      
+
 
 
 class BatailleNavale:
@@ -146,7 +161,7 @@ class BatailleNavale:
                     y = int(input("Colonne (1-10): "))
                     
                     # Demande l'orientation
-                    orientation = input("Horizontal (oui/non)? ").lower()
+                    orientation = input("\nHorizontal (oui/non)? ").lower()
                     horizontal = orientation == 'oui'
                     
                     # Essaie de placer le bateau
@@ -155,60 +170,66 @@ class BatailleNavale:
                     else:
                         print("\nPosition invalide ! Réessayez.")
                 except ValueError:
-                   print("\nEntrée invalide ! Utilisez des nombres entre 1 et 10.")
+                   print("\nEntrée invalide ! Utilisez des nombres entre 1 et 10 : ")
 
 
 
     def placer_bateaux_ordinateur(self):
         print("\nL'ordinateur place ses bateaux...")
+        time.sleep(5)
         for nom, taille in self.types_bateaux:
             while not self.plateau_ordinateur.placer_bateau(
                 Bateau(nom, taille),
-                random.randint(0, 9),
-                random.randint(0, 9),
+                random.randint(1, 10),
+                random.randint(1, 10),
                 random.choice([True, False])
                 ):
                     pass
 
     def tour_joueur(self) :
-        print("C'est votre tour !")
+        print("\nC'est votre tour !")
         while True :
-            x = int(input("Choisissez une ligne de tir entre 1 et 10."))
-            y = int(input("Choisissez une colonne de tir entre 1 et 10."))
-            rep = self.plateau_ordinateur.boulet_de_canon(x, y)
-            if rep == False :
+            x = int(input("Choisissez une ligne de tir entre 1 et 10 : "))
+            y = int(input("Choisissez une colonne de tir entre 1 et 10 : "))
+            valide, rep = self.plateau_ordinateur.boulet_de_canon(x, y)
+            if valide == False :
                 print(rep)
-                print("Entrée invalide, réessayez.")
-            elif rep == True :
+            elif valide == True :
                 print(rep)
                 return self.verifier_victoire(self.plateau_ordinateur)
     
                 
     def tour_ordinateur(self) :
-        print("C'est au tour de l'ordinateur.")
+        print("\nC'est au tour de l'ordinateur.")
+        time.sleep(4)
         while True :
             x = random.randint(1, 10)
             y = random.randint(1, 10)
-            rep = self.plateau_joueur.boulet_de_canon(x, y)
-            if rep == True :
+            valide, rep = self.plateau_joueur.boulet_de_canon(x, y)
+            if valide == True :
                 print (f"L'ordinateur tire en ({x}, {y}) : {rep}")
+                time.sleep(3)
                 return self.verifier_victoire(self.plateau_joueur)
 
-    def verifier_victoire(self, plateau) :
-        nb_case_bateau = 0
-        for i in range(self.taille) :
-            for j in range(self.taille) :
-                case = self.plateau[i][j]
-                if case == 'X' :
-                    nb_case_bateau += 1
-        if nb_case_bateau == 0 :
-            return True
-        else :
-            return False
+    def verifier_victoire(self, plateau):
+        """
+        Vérifie si tous les bateaux d'un plateau sont coulés
+        
+        Args:
+            plateau (Plateau): Le plateau à vérifier
+            
+        Returns:
+            bool: True si tous les bateaux sont coulés, False sinon
+        """
+        # La meilleure façon est de vérifier si tous les bateaux sont coulés
+        for bateau in plateau.bateaux:
+            if not bateau.est_coule():
+                return False
+        return True
     
     def jouer(self):
         """Lance une partie de bataille navale"""
-        print("=== BATAILLE NAVALE ===")
+        print("\n=== BATAILLE NAVALE ===")
 
         self.placer_bateaux_joueur() # La fonctions demande au joueur ou il veut placer ses bateaux
         self.placer_bateaux_ordinateur() # place les bateaux de l'ordinateur aleatoirement sur sa grille
@@ -223,14 +244,14 @@ class BatailleNavale:
             # Tour du joueur
             if self.tour_joueur():
                 print("\nFélicitations ! Vous avez gagné !")
-                print("Le plateau de l'ordinateur était:")
+                print("\nLe plateau de l'ordinateur était:")
                 self.plateau_ordinateur.afficher(True)
                 break
             
             # Tour de l'ordinateur
             if self.tour_ordinateur():
                 print("\nL'ordinateur a gagné !")
-                print("Le plateau de l'ordinateur était:")
+                print("\nLe plateau de l'ordinateur était:")
                 self.plateau_ordinateur.afficher(True)
                 break
                 
