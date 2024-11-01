@@ -107,16 +107,6 @@ class Plateau:
         return True
 
     def boulet_de_canon(self, x, y):
-        """
-        Lance un boulet de canon aux coordonnées spécifiées
-        
-        Args:
-            x (int): Ligne (0-9)
-            y (int): Colonne (0-9)
-            
-        Returns:
-            bool: True si le tir est valide (touché ou manqué), False si invalide
-        """
         # Vérifier que les coordonnées sont dans la plage 0-9
         if not (0 <= x <= 9 and 0 <= y <= 9):
             return False, "Utilisez des chiffres entre 0 et 9"
@@ -217,15 +207,6 @@ class BatailleNavale:
                 return self.verifier_victoire(self.plateau_joueur)
 
     def verifier_victoire(self, plateau):
-        """
-        Vérifie si tous les bateaux d'un plateau sont coulés
-        
-        Args:
-            plateau (Plateau): Le plateau à vérifier
-            
-        Returns:
-            bool: True si tous les bateaux sont coulés, False sinon
-        """
         # La meilleure façon est de vérifier si tous les bateaux sont coulés
         for bateau in plateau.bateaux:
             if not bateau.est_coule():
@@ -264,11 +245,3 @@ class BatailleNavale:
 if __name__ == "__main__":
     jeu = BatailleNavale()
     jeu.jouer()
-
-
-
-
-#print("\033[91mTexte en rouge\033[0m")  # Texte en rouge
-#print("\033[92mTexte en vert\033[0m")   # Texte en vert
-#print("\033[93mTexte en jaune\033[0m")  # Texte en jaune
-#print("\033[94mTexte en bleu\033[0m")   # Texte en bleu
