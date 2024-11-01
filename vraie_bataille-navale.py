@@ -8,7 +8,6 @@ class Bateau:
         self.positions = []   # Liste des coordonnées occupées par le bateau
         self.touches = []     # Liste des positions touchées par l'adversaire
     
-    
     def est_coule(self):
         """Vérifie si le bateau est coulé (toutes les positions sont touchées)"""
         return len(self.touches) == self.taille
@@ -17,11 +16,19 @@ class Bateau:
         if (x,y) in self.positions:
             return True 
         return False 
-    
-
 
 class Plateau:
     def __init__(self, taille=10):
+        # Codes couleurs ANSI
+        self.BLEU = '\033[94m'      # Eau en bleu
+        self.GRIS = '\033[90m'      # Bateau en gris 
+        self.ROUGE = '\033[91m'     # Tir touché en rouge
+        self.JAUNE = '\033[93m'     # Tir raté en jaune
+        self.RESET = '\033[0m'      # Réinitialiser la couleur
+
+
+ 
+
         # Création du plateau vide (eau partout)
         self.taille = taille
         self.grille = []
@@ -37,23 +44,29 @@ class Plateau:
         self.RATE = 'O'       # Tir raté
 
     def afficher(self, montrer_bateaux = False) :
-        print ("   1 2 3 4 5 6 7 8 9 10")
+        print ("   0 1 2 3 4 5 6 7 8 9")
         for i in range(self.taille) :
-            print((i + 1), end = '  ',)
+            print((i), end = '  ',)
             for j in range(self.taille) :
                 case = self.grille[i][j]
-                if not montrer_bateaux and case == self.BATEAU :
-                    print(self.EAU, end = ' ')      # Affiche uniquement des vagues si montrer_bateaux est toujours = False
-                else :
-                    print(case, end = ' ')          # Affiche Les endroits où il y'a des bateaux quand montrer_bateaux = True
+                
+                # Colorisation des cases
+                if case == self.EAU:
+                    print(f"{self.BLEU}~ {self.RESET}", end='')
+                elif case == self.BATEAU and montrer_bateaux:
+                    print(f"{self.GRIS}B {self.RESET}", end='')
+                elif case == self.TOUCHE:
+                    print(f"{self.ROUGE}X {self.RESET}", end='')
+                elif case == self.RATE:
+                    print(f"{self.JAUNE}O {self.RESET}", end='')
+                else:
+                    print(f"{self.BLEU}~ {self.RESET}", end='')
             print()
 
-
+    # Le reste du code reste identique à votre implementation originale
     def placer_bateau(self, bateau, x, y, horizontal):
         """Essaie de placer un bateau aux coordonnées données"""
         # Ajuster les coordonnées (1-10 -> 0-9)
-        x = x - 1
-        y = y - 1
         
         if not (0 <= x < self.taille and 0 <= y < self.taille):
             return False
@@ -89,7 +102,7 @@ class Plateau:
             self.grille[pos_x][pos_y] = self.BATEAU
         
         # Enregistre les positions dans le bateau
-        bateau.positions = positions_possibles # devient les position impossibles pour placer un autre bateau
+        bateau.positions = positions_possibles
         self.bateaux.append(bateau)
         return True
 
@@ -98,19 +111,16 @@ class Plateau:
         Lance un boulet de canon aux coordonnées spécifiées
         
         Args:
-            x (int): Ligne (1-10)
-            y (int): Colonne (1-10)
+            x (int): Ligne (0-9)
+            y (int): Colonne (0-9)
             
         Returns:
             bool: True si le tir est valide (touché ou manqué), False si invalide
         """
-        # Vérifier que les coordonnées sont dans la plage 1-10
-        if not (1 <= x <= 10 and 1 <= y <= 10):
-            return False, "Utilisez des chiffres entre 1 et 10"
+        # Vérifier que les coordonnées sont dans la plage 0-9
+        if not (0 <= x <= 9 and 0 <= y <= 9):
+            return False, "Utilisez des chiffres entre 0 et 9"
 
-        # Ajuster les coordonnées pour l'index 0-based
-        x = x - 1
-        y = y - 1
         
         # Vérifier si la case a déjà été ciblée
         if self.grille[x][y] in [self.TOUCHE, self.RATE]:
@@ -128,10 +138,8 @@ class Plateau:
         # Si aucun bateau n'est touché
         self.grille[x][y] = self.RATE
         return True, "Manqué !"        
-                                      
 
-
-
+# Le reste du code de la classe BatailleNavale reste identique
 class BatailleNavale:
     def __init__(self):
         self.plateau_joueur = Plateau()
@@ -157,8 +165,8 @@ class BatailleNavale:
                 
                 try:
                     # Demande les coordonnées
-                    x = int(input("Ligne (1-10): "))
-                    y = int(input("Colonne (1-10): "))
+                    x = int(input("Ligne (0-9): "))
+                    y = int(input("Colonne (0-9): "))
                     
                     # Demande l'orientation
                     orientation = input("\nHorizontal (oui/non)? ").lower()
@@ -170,9 +178,7 @@ class BatailleNavale:
                     else:
                         print("\nPosition invalide ! Réessayez.")
                 except ValueError:
-                   print("\nEntrée invalide ! Utilisez des nombres entre 1 et 10 : ")
-
-
+                   print("\nEntrée invalide ! Utilisez des nombres entre 0 et 9 : ")
 
     def placer_bateaux_ordinateur(self):
         print("\nL'ordinateur place ses bateaux...")
@@ -180,8 +186,8 @@ class BatailleNavale:
         for nom, taille in self.types_bateaux:
             while not self.plateau_ordinateur.placer_bateau(
                 Bateau(nom, taille),
-                random.randint(1, 10),
-                random.randint(1, 10),
+                random.randint(0, 9),
+                random.randint(0, 9),
                 random.choice([True, False])
                 ):
                     pass
@@ -189,8 +195,8 @@ class BatailleNavale:
     def tour_joueur(self) :
         print("\nC'est votre tour !")
         while True :
-            x = int(input("Choisissez une ligne de tir entre 1 et 10 : "))
-            y = int(input("Choisissez une colonne de tir entre 1 et 10 : "))
+            x = int(input("Choisissez une ligne de tir entre 0 et 9 : "))
+            y = int(input("Choisissez une colonne de tir entre 0 et 9 : "))
             valide, rep = self.plateau_ordinateur.boulet_de_canon(x, y)
             if valide == False :
                 print(rep)
@@ -198,13 +204,12 @@ class BatailleNavale:
                 print(rep)
                 return self.verifier_victoire(self.plateau_ordinateur)
     
-                
     def tour_ordinateur(self) :
         print("\nC'est au tour de l'ordinateur.")
         time.sleep(4)
         while True :
-            x = random.randint(1, 10)
-            y = random.randint(1, 10)
+            x = random.randint(0, 9)
+            y = random.randint(0, 9)
             valide, rep = self.plateau_joueur.boulet_de_canon(x, y)
             if valide == True :
                 print (f"L'ordinateur tire en ({x}, {y}) : {rep}")
@@ -255,8 +260,15 @@ class BatailleNavale:
                 self.plateau_ordinateur.afficher(True)
                 break
                 
-
 # Lancement du jeu
-if __name__ == "__main__": # Vérifie si le fichier est exécuté directement ou s'il est importpé. Si le jeu est exécuté directement, le jeu est lancé.
-    jeu = BatailleNavale() # Crée une instance jeu de la classe BatailleNavale 
-    jeu.jouer() # Appel à la méthode jouer de la classe BatailleNavale pour lancer le jeu
+if __name__ == "__main__":
+    jeu = BatailleNavale()
+    jeu.jouer()
+
+
+
+
+#print("\033[91mTexte en rouge\033[0m")  # Texte en rouge
+#print("\033[92mTexte en vert\033[0m")   # Texte en vert
+#print("\033[93mTexte en jaune\033[0m")  # Texte en jaune
+#print("\033[94mTexte en bleu\033[0m")   # Texte en bleu
