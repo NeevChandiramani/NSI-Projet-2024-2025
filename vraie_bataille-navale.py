@@ -187,3 +187,15 @@ class BatailleNavale:
             if rep == True :
                 print (f"L'ordinateur tire en ({x}, {y}) : {rep}")
                 return self.verifier_victoire(self.plateau_joueur)
+
+    def vérifier_victoire(self, plateau) :
+        nb_case_bateau = 0
+        for i in range(self.taille) :
+            for j in range(self.taille) :
+                case = self.grille[i][j]
+                if case == 'X' :
+                    nb_case_bateau += 1
+        if nb_case_bateau == 0 :
+            return True
+        else :
+            return False
