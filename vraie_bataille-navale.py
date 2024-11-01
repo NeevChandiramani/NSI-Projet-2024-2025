@@ -3,7 +3,7 @@ import time
 
 class Bateau:
     def __init__(self, nom, taille):
-        self.nom = nom        # Nom du bateau (ex: "Porte-avions")
+        self.nom = nom        # Nom du bateau (ex: "Le Charles de Gaulle")
         self.taille = taille  # Longueur du bateau
         self.positions = []   # Liste des coordonnées occupées par le bateau
         self.touches = []     # Liste des positions touchées par l'adversaire
