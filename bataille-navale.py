@@ -377,14 +377,14 @@ class BatailleNavale:
         print("=== BATAILLE NAVALE ===")
         
         # Phase de placement
-        self.placer_bateaux_joueur()
-        self.placer_bateaux_ordinateur()
+        self.placer_bateaux_joueur()#La fonctions demande au joueur ou il veut placer ses bateaux
+        self.placer_bateaux_ordinateur()#place les bateaux de l'odinateur aleatoirement sur sa grille
         
         # Boucle de jeu
         while True:
             # Affichage des plateaux
-            print("\nVotre plateau:")
-            self.plateau_joueur.afficher(True)
+            print("\nVotre plateau:")#
+            self.plateau_joueur.afficher(True)#
             print("\nPlateau de l'ordinateur:")
             self.plateau_ordinateur.afficher(False)
             

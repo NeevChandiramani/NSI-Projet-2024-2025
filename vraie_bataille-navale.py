@@ -86,11 +86,15 @@ class Plateau:
         return True                    
                                       
 
-
     
     def boulet_de_canon(self, x, y) :
         # Ajustement des coordonnées (0-based indexing)
+        Liste = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
         x, y = x-1, y-1
+        
+        if x and y not in Liste :
+            print("Utilisez des chiffres entre 1 et 10")
+            return False          
         if not (0 <= x < self.taille and 0 <= y < self.taille) :    #Définir si le boulet est dans la grille
             print ("Le boulet de canon est sorti de la grille")
             return False
@@ -174,9 +178,11 @@ class BatailleNavale:
             rep = self.plateau_ordinateur.boulet_de_canon(x, y)
             if rep == False :
                 print(rep)
-                print("Entrée invalide, utilisez des chiffres entre 1 et 10.")
+                print("Entrée invalide, réessayez.")
             elif rep == True :
+                print(rep)
                 return self.verifier_victoire(self.plateau_ordinateur)
+    
                 
     def tour_ordinateur(self) :
         print("C'est au tour de l'ordinateur.")
@@ -188,14 +194,48 @@ class BatailleNavale:
                 print (f"L'ordinateur tire en ({x}, {y}) : {rep}")
                 return self.verifier_victoire(self.plateau_joueur)
 
-    def vérifier_victoire(self, plateau) :
+    def verifier_victoire(self, plateau) :
         nb_case_bateau = 0
         for i in range(self.taille) :
             for j in range(self.taille) :
-                case = self.grille[i][j]
+                case = self.plateau[i][j]
                 if case == 'X' :
                     nb_case_bateau += 1
         if nb_case_bateau == 0 :
             return True
         else :
             return False
+    
+    def jouer(self):
+        """Lance une partie de bataille navale"""
+        print("=== BATAILLE NAVALE ===")
+
+        self.placer_bateaux_joueur() # La fonctions demande au joueur ou il veut placer ses bateaux
+        self.placer_bateaux_ordinateur() # place les bateaux de l'ordinateur aleatoirement sur sa grille
+        
+        while True:
+            # Affichage des plateaux
+            print("\nVotre plateau:")
+            self.plateau_joueur.afficher(True)
+            print("\nPlateau de l'ordinateur:")
+            self.plateau_ordinateur.afficher(False)
+              
+            # Tour du joueur
+            if self.tour_joueur():
+                print("\nFélicitations ! Vous avez gagné !")
+                print("Le plateau de l'ordinateur était:")
+                self.plateau_ordinateur.afficher(True)
+                break
+            
+            # Tour de l'ordinateur
+            if self.tour_ordinateur():
+                print("\nL'ordinateur a gagné !")
+                print("Le plateau de l'ordinateur était:")
+                self.plateau_ordinateur.afficher(True)
+                break
+                
+
+# Lancement du jeu
+if __name__ == "__main__": # Vérifie si le fichier est exécuté directement ou s'il est importpé. Si le jeu est exécuté directement, le jeu est lancé.
+    jeu = BatailleNavale() # Crée une instance jeu de la classe BatailleNavale 
+    jeu.jouer() # Appel à la méthode jouer de la classe BatailleNavale pour lancer le jeu
