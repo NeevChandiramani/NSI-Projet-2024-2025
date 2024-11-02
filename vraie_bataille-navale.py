@@ -3,7 +3,6 @@ import time
 
 
 class Bateau:
-    
     def __init__(self, nom, taille):
         self.nom = nom        # Nom du bateau (ex: "Le Charles de Gaulle")
         self.taille = taille  # Longueur du bateau
@@ -22,7 +21,6 @@ class Bateau:
 
 
 class Plateau:
-    
     def __init__(self, taille=10):
         # Codes couleurs ANSI
         self.BLEU = '\033[94m'      # Eau en bleu
@@ -130,9 +128,8 @@ class Plateau:
 
 
 class BatailleNavale:    # Class avec les méthodes principales du jeu
-    
-    # Définition des deux plateaux identiques pour le joueur et l'ordinateur
     def __init__(self):
+        # Définition des deux plateaux identiques pour le joueur et l'ordinateur
         self.plateau_joueur = Plateau()
         self.plateau_ordinateur = Plateau()
         
@@ -173,8 +170,8 @@ class BatailleNavale:    # Class avec les méthodes principales du jeu
                 except ValueError:
                    print("\nEntrée invalide ! Utilisez des nombres entre 0 et 9 : ")
 
-    # L'ordinateur place ses bateaux de manière aléatoire
     def placer_bateaux_ordinateur(self):
+        # L'ordinateur place ses bateaux de manière aléatoire
         print("\nL'ordinateur place ses bateaux...")
         time.sleep(5)
         for nom, taille in self.types_bateaux:
@@ -186,8 +183,8 @@ class BatailleNavale:    # Class avec les méthodes principales du jeu
                 ):
                     pass
 
-    # Demande au joueur où il veut tirer son boulet
     def tour_joueur(self) :
+        # Demande au joueur où il veut tirer son boulet
         print("\nC'est votre tour !")
         while True :
             x = int(input("Choisissez une ligne de tir entre 0 et 9 : "))
@@ -199,8 +196,8 @@ class BatailleNavale:    # Class avec les méthodes principales du jeu
                 print(rep)
                 return self.verifier_victoire(self.plateau_ordinateur)
 
-    # L'ordinateur tire de manière aléatoire sur le plateau
     def tour_ordinateur(self) :
+        # L'ordinateur tire de manière aléatoire sur le plateau
         print("\nC'est au tour de l'ordinateur.")
         time.sleep(4)
         while True :
