@@ -13,7 +13,7 @@ class Bateau:
         #Vérifie si le bateau est coulé (toutes les positions sont touchées)
         return len(self.touches) == self.taille
     
-    def est_touche(self,x,y):
+    def est_touche(self, x, y):
         #Vérifie les coordonnées x et y touchent un bateau
         if (x,y) in self.positions:
             return True 
@@ -43,12 +43,12 @@ class Plateau:
         self.TOUCHE = 'X'     # Tir qui a touché
         self.RATE = 'O'       # Tir raté
 
-    def afficher(self, montrer_bateaux = False) :
+    def afficher(self, montrer_bateaux = False):
         # Afficher la grille 10x10
         print ("   0 1 2 3 4 5 6 7 8 9")
-        for i in range(self.taille) :
-            print((i), end = '  ',)
-            for j in range(self.taille) :
+        for i in range(self.taille):
+            print((i), end = '  ',)    # Normal la , ?
+            for j in range(self.taille):
                 case = self.grille[i][j]
                 
                 # Colorisation des cases
@@ -166,6 +166,7 @@ class BatailleNavale:    # Class avec les méthodes principales du jeu
                         break
                     else:
                         print("\nPosition invalide ! Réessayez.")
+                        
                 # Except ValueError est exécutée si le joueur n'entre pas des chiffres
                 except ValueError:
                    print("\nEntrée invalide ! Utilisez des nombres entre 0 et 9 : ")
@@ -183,28 +184,28 @@ class BatailleNavale:    # Class avec les méthodes principales du jeu
                 ):
                     pass
 
-    def tour_joueur(self) :
+    def tour_joueur(self):
         # Demande au joueur où il veut tirer son boulet
         print("\nC'est votre tour !")
-        while True :
+        while True:
             x = int(input("Choisissez une ligne de tir entre 0 et 9 : "))
             y = int(input("Choisissez une colonne de tir entre 0 et 9 : "))
             valide, rep = self.plateau_ordinateur.boulet_de_canon(x, y)    # La méthode "Boulet_de_canon" renvoie deux arguments : Un booléen (ici "valide") et un message (ici "rep")
-            if valide == False :
+            if valide == False:
                 print(rep)
-            elif valide == True :
+            elif valide == True:
                 print(rep)
                 return self.verifier_victoire(self.plateau_ordinateur)
 
-    def tour_ordinateur(self) :
+    def tour_ordinateur(self):
         # L'ordinateur tire de manière aléatoire sur le plateau
         print("\nC'est au tour de l'ordinateur.")
         time.sleep(4)
-        while True :
+        while True:
             x = random.randint(0, 9)
             y = random.randint(0, 9)
             valide, rep = self.plateau_joueur.boulet_de_canon(x, y)
-            if valide == True :
+            if valide == True:
                 print (f"L'ordinateur tire en ({x}, {y}) : {rep}")
                 time.sleep(3)
                 return self.verifier_victoire(self.plateau_joueur)
