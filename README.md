@@ -9,14 +9,14 @@ Un jeu de bataille navale classique en console permettant d'affronter l'ordinate
 
 ## 🛠️ Installation
 
-1. Clonez ce dépôt ou téléchargez le fichier `vraie_bataille-navale.py`
+1. Clonez ce dépôt ou téléchargez le fichier `bataille-navale.py`
 2. Aucune dépendance externe n'est requise, le jeu utilise uniquement des modules Python standards
 
 ## 🎮 Comment jouer
 
 1. Lancez le jeu en exécutant :
 ```bash
-python vraie_bataille-navale.py
+python bataille-navale.py
 ```
 
 2. Placez vos bateaux selon les instructions :
