@@ -38,7 +38,7 @@ python vraie_bataille-navale.py
      - O : Tir manqué
      - X : Tir touché
      - B : Bateau
-     
+
    - À chaque tour, entrez les coordonnées de votre tir (ligne et colonne)
 
 ## 🎯 Règles du jeu
@@ -50,9 +50,9 @@ python vraie_bataille-navale.py
 
 ## 🐛 Bugs connus
 
-1. Le jeu ne vérifie pas la présence d'espaces entre les bateaux lors du placement
-2. Pas de gestion des erreurs si l'utilisateur entre des caractères non numériques
-3. L'ordinateur tire de manière complètement aléatoire, même après avoir touché un bateau
+1. L'ordinateur tire de manière complètement aléatoire, même après avoir touché un bateau
+2. ...
+3. ...
 
 ## 🚀 Évolutions possibles
 
