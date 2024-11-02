@@ -74,6 +74,7 @@ python vraie_bataille-navale.py
 
 4. Gameplay :
    - Ajout de capacités spéciales pour certains bateaux
+   - Ajout de points de vie pour les bateaux
    - Mode "bataille rapide" avec moins de bateaux
    - Règle de placement avec espacement obligatoire entre les bateaux
 
