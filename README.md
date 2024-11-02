@@ -70,7 +70,7 @@ python vraie_bataille-navale.py
    - Version graphique avec PyGame
    - Ajout d'effets sonores
    - Animation des tirs
-   - Utilisation d'émojis pour l'affichage des bateaux
+   - Utilisation d'images pour l'affichage des bateaux
 
 4. Gameplay :
    - Ajout de capacités spéciales pour certains bateaux
