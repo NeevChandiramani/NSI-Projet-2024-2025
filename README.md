@@ -33,10 +33,12 @@ python vraie_bataille-navale.py
 3. Pendant la partie :
    - Votre plateau est affiché avec vos bateaux (B)
    - Le plateau de l'ordinateur est masqué
-   - Les plateau est marqué par :
-     - 🔵 ~ : Eau
-     - ⚪ O : Tir manqué
-     - 🔴 X : Tir touché
+   - Le plateau est marqué par :
+     - ~ : Eau
+     - O : Tir manqué
+     - X : Tir touché
+     - B : Bateau
+     
    - À chaque tour, entrez les coordonnées de votre tir (ligne et colonne)
 
 ## 🎯 Règles du jeu
