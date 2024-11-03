@@ -5,6 +5,7 @@ Un jeu de bataille navale classique en console permettant d'affronter l'ordinate
 ## 📋 Prérequis
 
 - Un terminal supportant les codes de couleur ANSI
+- Mettre le terminal dans une taille suffisante afin de bien voir les plateaux 
 
 ## 🛠️ Installation
 
