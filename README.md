@@ -4,7 +4,6 @@ Un jeu de bataille navale classique en console permettant d'affronter l'ordinate
 
 ## 📋 Prérequis
 
-- Python 3.6 ou supérieur
 - Un terminal supportant les codes de couleur ANSI
 
 ## 🛠️ Installation
