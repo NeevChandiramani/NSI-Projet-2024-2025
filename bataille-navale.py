@@ -9,18 +9,18 @@ class Bateau:
     def __init__(self, nom, taille):
         """ str, int -> None
         Initialise un nouveau bateau avec son nom et sa taille. """
-        self.nom = nom        # Nom du bateau (ex: "Le Charles de Gaulle")
-        self.taille = taille  # Longueur du bateau
-        self.positions = []   # Liste des coordonnées occupées par le bateau
-        self.touches = []     # Liste des positions touchées par l'adversaire
+        self.nom = nom
+        self.taille = taille
+        self.positions = []
+        self.touches = []
     
     def est_coule(self):
-        """ None -> bool
+        """ Bateau -> bool
         Renvoie True si le bateau est coulé (toutes les positions sont touchées), False sinon. """
         return len(self.touches) == self.taille
     
     def est_touche(self, x, y):
-        """ int, int -> bool
+        """ Bateau, int, int -> bool
         Renvoie True si les coordonnées x et y touchent un bateau, False sinon. """
         if (x,y) in self.positions:
             return True 
@@ -32,16 +32,14 @@ class Plateau:
     Classe représentant le plateau de jeu avec une taille par défaut de 10x10. """
     
     def __init__(self, taille=10):
-        """ int -> None
+        """ Plateau, int -> None
         Initialise un nouveau plateau de jeu avec la taille spécifiée. """
-        # Codes couleurs ANSI
-        self.BLEU = '\033[94m'      # Eau en bleu
-        self.GRIS = '\033[90m'      # Bateau en gris 
-        self.ROUGE = '\033[91m'     # Tir touché en rouge
-        self.JAUNE = '\033[93m'     # Tir raté en jaune
-        self.RESET = '\033[0m'      # Réinitialiser la couleur
+        self.BLEU = '\033[94m'
+        self.GRIS = '\033[90m'
+        self.ROUGE = '\033[91m'
+        self.JAUNE = '\033[93m'
+        self.RESET = '\033[0m'
 
-        # Création du plateau vide (eau partout)
         self.taille = taille
         self.grille = []
         for _ in range(taille):
@@ -49,14 +47,13 @@ class Plateau:
             self.grille.append(ligne)
         self.bateaux = []
         
-        # Symboles utilisés pour l'affichage
-        self.EAU = '~'        # Case d'eau
-        self.BATEAU = 'B'     # Case avec un bateau
-        self.TOUCHE = 'X'     # Tir qui a touché
-        self.RATE = 'O'       # Tir raté
+        self.EAU = '~'
+        self.BATEAU = 'B'
+        self.TOUCHE = 'X'
+        self.RATE = 'O'
 
-    def afficher(self, montrer_bateaux = False):
-        """ bool -> None
+    def afficher(self, montrer_bateaux=False):
+        """ Plateau, bool -> None
         Affiche l'état actuel du plateau avec les bateaux visibles si montrer_bateaux est True. """
         print ("   0 1 2 3 4 5 6 7 8 9")
         for i in range(self.taille):
@@ -77,7 +74,7 @@ class Plateau:
             print()
 
     def placer_bateau(self, bateau, x, y, horizontal):
-        """ Bateau, int, int, bool -> bool
+        """ Plateau, Bateau, int, int, bool -> bool
         Essaie de placer un bateau aux coordonnées données et renvoie True si le placement est réussi, False sinon. """
         if not (0 <= x < self.taille and 0 <= y < self.taille):
             return False
@@ -110,7 +107,7 @@ class Plateau:
         return True
 
     def boulet_de_canon(self, x, y):
-        """ int, int -> tuple[bool, str]
+        """ Plateau, int, int -> tuple[bool, str]
         Tire un boulet de canon aux coordonnées données et renvoie un tuple contenant un booléen (tir valide ou non)
         et un message décrivant le résultat du tir. """
         if not (0 <= x <= 9 and 0 <= y <= 9):
@@ -136,7 +133,7 @@ class BatailleNavale:
     Classe principale gérant le déroulement d'une partie de bataille navale. """
     
     def __init__(self):
-        """ None -> None
+        """ BatailleNavale -> None
         Initialise une nouvelle partie avec les plateaux du joueur et de l'ordinateur. """
         self.plateau_joueur = Plateau()
         self.plateau_ordinateur = Plateau()
@@ -151,7 +148,7 @@ class BatailleNavale:
         ]
 
     def placer_bateaux_joueur(self):
-        """ None -> None
+        """ BatailleNavale -> None
         Permet au joueur de placer interactivement ses bateaux sur son plateau. """
         print("\nPlacement de vos bateaux :")
         for nom, taille in self.types_bateaux:
@@ -175,7 +172,7 @@ class BatailleNavale:
                    print("\nEntrée invalide ! Utilisez des nombres entre 0 et 9 : ")
 
     def placer_bateaux_ordinateur(self):
-        """ None -> None
+        """ BatailleNavale -> None
         Place aléatoirement les bateaux de l'ordinateur sur son plateau. """
         print("\nL'ordinateur place ses bateaux...")
         time.sleep(5)
@@ -189,13 +186,13 @@ class BatailleNavale:
                     pass
 
     def tour_joueur(self):
-        """ None -> bool
+        """ BatailleNavale -> bool
         Gère le tour du joueur et renvoie True si le joueur a gagné, False sinon. """
         print("\nC'est votre tour !")
         while True:
             x = int(input("Choisissez une ligne de tir entre 0 et 9 : "))
             y = int(input("Choisissez une colonne de tir entre 0 et 9 : "))
-            valide, rep = self.plateau_ordinateur.boulet_de_canon(x, y)    # La méthode "Boulet_de_canon" renvoie deux arguments : Un booléen (ici "valide") et un message (ici "rep")
+            valide, rep = self.plateau_ordinateur.boulet_de_canon(x, y)
             if valide == False:
                 print(rep)
             elif valide == True:
@@ -203,7 +200,7 @@ class BatailleNavale:
                 return self.verifier_victoire(self.plateau_ordinateur)
 
     def tour_ordinateur(self):
-        """ None -> bool
+        """ BatailleNavale -> bool
         Gère le tour de l'ordinateur et renvoie True si l'ordinateur a gagné, False sinon. """
         print("\nC'est au tour de l'ordinateur.")
         time.sleep(4)
@@ -217,7 +214,7 @@ class BatailleNavale:
                 return self.verifier_victoire(self.plateau_joueur)
 
     def verifier_victoire(self, plateau):
-        """ Plateau -> bool
+        """ BatailleNavale, Plateau -> bool
         Renvoie True si tous les bateaux du plateau sont coulés, False sinon. """
         for bateau in plateau.bateaux:
             if not bateau.est_coule():
@@ -225,7 +222,7 @@ class BatailleNavale:
         return True
     
     def jouer(self):
-        """ None -> None
+        """ BatailleNavale -> None
         Lance et gère une partie complète de bataille navale. """
         print("\n=== BATAILLE NAVALE ===")
 
