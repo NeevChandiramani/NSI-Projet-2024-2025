@@ -4,8 +4,8 @@ Un jeu de bataille navale classique en console permettant d'affronter l'ordinate
 
 ## 📋 Prérequis
 
-- Python 3.6 ou supérieur
 - Un terminal supportant les codes de couleur ANSI
+- Mettre le terminal dans une taille suffisante afin de bien voir les plateaux 
 
 ## 🛠️ Installation
 
@@ -85,4 +85,4 @@ python bataille-navale.py
 
 ## 📝 Licence
 
-Ce projet est distribué sous licence libre. N'hésitez pas à l'utiliser et à le modifier selon vos besoins.
+Ce projet est distribué sous licence libre pour un projet de NSI de terminale. N'hésitez pas à l'utiliser et à le modifier selon vos besoins.
