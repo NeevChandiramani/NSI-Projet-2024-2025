@@ -85,4 +85,4 @@ python bataille-navale.py
 
 ## 📝 Licence
 
-Ce projet est distribué sous licence libre. N'hésitez pas à l'utiliser et à le modifier selon vos besoins.
+Ce projet est distribué sous licence libre pour un projet de NSI de terminale. N'hésitez pas à l'utiliser et à le modifier selon vos besoins.
