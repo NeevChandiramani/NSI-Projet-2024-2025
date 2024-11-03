@@ -7,7 +7,7 @@ class Bateau:
     Classe représentant un bateau dans le jeu de bataille navale avec son nom et sa taille. """
     
     def __init__(self, nom, taille):
-        """ str, int -> None
+        """ Bateau, str, int -> None
         Initialise un nouveau bateau avec son nom et sa taille. """
         self.nom = nom
         self.taille = taille
