@@ -51,7 +51,7 @@ python bataille-navale.py
 ## 🐛 Bugs connus
 
 1. L'ordinateur tire de manière complètement aléatoire, même après avoir touché un bateau
-2. Affichage bug à un certain moment en appuyant sur entrée
+2. Le programme plante si l'utilisateur entre une valeur non numérique pour les tirs
 3. ...
 
 ## 🚀 Évolutions possibles
