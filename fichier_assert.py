@@ -1,6 +1,6 @@
 
 import random
-from bataille_navale import Bateau, Plateau, BatailleNavale
+from bataille_navale import Bateau, Plateau, BatailleNavale # type: ignore
 
 # Tests pour la classe Bateau
 def test_bateau():

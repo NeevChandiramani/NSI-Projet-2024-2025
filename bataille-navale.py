@@ -174,7 +174,7 @@ class BatailleNavale:
     def placer_bateaux_ordinateur(self):
         """ BatailleNavale -> None
         Place aléatoirement les bateaux de l'ordinateur sur son plateau. """
-        print("\nL'ordinateur place ses bateaux...")
+        print("\nDe3pB0at place ses bateaux...")
         time.sleep(5)
         for nom, taille in self.types_bateaux:
             while not self.plateau_ordinateur.placer_bateau(
@@ -209,7 +209,7 @@ class BatailleNavale:
             y = random.randint(0, 9)
             valide, rep = self.plateau_joueur.boulet_de_canon(x, y)
             if valide == True:
-                print (f"L'ordinateur tire en ({x}, {y}) : {rep}")
+                print (f"De3pB0at tire en ({x}, {y}) : {rep}")
                 time.sleep(3)
                 return self.verifier_victoire(self.plateau_joueur)
 
@@ -225,6 +225,8 @@ class BatailleNavale:
         """ BatailleNavale -> None
         Lance et gère une partie complète de bataille navale. """
         print("\n=== BATAILLE NAVALE ===")
+        print("\nVous allez affronter une intellingence artificielle de haut niveau dans ce jeu de bataille navale.")
+        print("\nElle est nomée : 'De3pB0at'")
 
         self.placer_bateaux_joueur()
         self.placer_bateaux_ordinateur()
@@ -232,18 +234,18 @@ class BatailleNavale:
         while True:
             print("\nVotre plateau:")
             self.plateau_joueur.afficher(True)
-            print("\nPlateau de l'ordinateur:")
+            print("\nPlateau de De3pB0at:")
             self.plateau_ordinateur.afficher(False)
               
             if self.tour_joueur():
                 print("\nFélicitations ! Vous avez gagné !")
-                print("\nLe plateau de l'ordinateur était:")
+                print("\nLe plateau de De3pB0at était:")
                 self.plateau_ordinateur.afficher(True)
                 break
             
             if self.tour_ordinateur():
-                print("\nL'ordinateur a gagné !")
-                print("\nLe plateau de l'ordinateur était:")
+                print("\nDe3pB0at a gagné !")
+                print("\nLe plateau de De3pB0at était:")
                 self.plateau_ordinateur.afficher(True)
                 break
                 
