@@ -1,4 +1,3 @@
-
 import random
 from bataille_navale import Bateau, Plateau, BatailleNavale # type: ignore
 
