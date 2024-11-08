@@ -150,15 +150,14 @@ class BatailleNavale:
     def placer_bateaux_joueur(self):
         """ BatailleNavale -> None
         Permet au joueur de placer interactivement ses bateaux sur son plateau. """
-        print("\nPlacement de vos bateaux :")
+        print("\nPlacement de vos bateaux :\n")
         for nom, taille in self.types_bateaux:
             while True:
                 self.plateau_joueur.afficher(True)
                 print(f"\nPlacer le {nom} (taille: {taille})")
 
                 try:
-                    x = int(input("Ligne (0-9) : "))
-                    y = int(input("Colonne (0-9) : "))
+                    x, y = map(int, input("Entrez la Ligne (0-9) et la Colonne (0-9) séparées avec un espace : ").split())
                     
                     orientation = input("\nHorizontal (oui/non)? ").lower()
                     horizontal = orientation == 'oui'
@@ -190,8 +189,7 @@ class BatailleNavale:
         Gère le tour du joueur et renvoie True si le joueur a gagné, False sinon. """
         print("\nC'est votre tour !")
         while True:
-            x = int(input("Choisissez une ligne de tir entre 0 et 9 : "))
-            y = int(input("Choisissez une colonne de tir entre 0 et 9 : "))
+            x, y = map(int, input("Entrez la Ligne (0-9) et la Colonne (0-9) du tir, séparées avec un espace : ").split())
             valide, rep = self.plateau_ordinateur.boulet_de_canon(x, y)
             if valide == False:
                 print(rep)
