@@ -159,6 +159,7 @@ class BatailleNavale:
                 try:
                     x, y = map(int, input("Entrez la Ligne (0-9) et la Colonne (0-9) séparées avec un espace : ").split())
                     
+                    
                     orientation = input("\nHorizontal (oui/non)? ").lower()
                     horizontal = orientation == 'oui'
                     
@@ -189,13 +190,16 @@ class BatailleNavale:
         Gère le tour du joueur et renvoie True si le joueur a gagné, False sinon. """
         print("\nC'est votre tour !")
         while True:
-            x, y = map(int, input("Entrez la Ligne (0-9) et la Colonne (0-9) du tir, séparées avec un espace : ").split())
-            valide, rep = self.plateau_ordinateur.boulet_de_canon(x, y)
-            if valide == False:
-                print(rep)
-            elif valide == True:
-                print(rep)
-                return self.verifier_victoire(self.plateau_ordinateur)
+            try: 
+                x, y = map(int, input("Entrez la Ligne (0-9) et la Colonne (0-9) du tir, séparées avec un espace : ").split())
+                valide, rep = self.plateau_ordinateur.boulet_de_canon(x, y)
+                if valide == False:
+                    print(rep)
+                elif valide == True:
+                    print(rep)
+                    return self.verifier_victoire(self.plateau_ordinateur)
+            except ValueError:
+                print("\nEntrée invalide ! Utilisez des nombres entre 0 et 9 : ")
 
     def tour_ordinateur(self):
         """ BatailleNavale -> bool
@@ -221,7 +225,7 @@ class BatailleNavale:
     
     def jouer(self):
         """ BatailleNavale -> None
-        Lance et gère une partie complète de bataille navale. """
+        Lance et gère une partie complète de aavale. """
         print("\n=== BATAILLE NAVALE ===")
         print("\nVous allez affronter une intellingence artificielle de haut niveau dans ce jeu de bataille navale.")
         print("\nElle est nomée : 'De3pB0at'")
