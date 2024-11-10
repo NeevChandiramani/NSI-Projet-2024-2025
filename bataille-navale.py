@@ -225,7 +225,7 @@ class BatailleNavale:
     
     def jouer(self):
         """ BatailleNavale -> None
-        Lance et gère une partie complète de aavale. """
+        Lance et gère une partie complète de navale. """
         print("\n=== BATAILLE NAVALE ===")
         print("\nVous allez affronter une intellingence artificielle de haut niveau dans ce jeu de bataille navale.")
         print("\nElle est nomée : 'De3pB0at'")
