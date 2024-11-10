@@ -81,7 +81,6 @@ python bataille-navale.py
 5. Documentation :
    - Traduction en anglais
    - Ajout de tests unitaires
-   - Documentation du code avec docstrings complets
 
 ## 📝 Licence
 
